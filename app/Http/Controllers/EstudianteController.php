@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 
 class EstudianteController extends Controller
@@ -14,7 +15,8 @@ class EstudianteController extends Controller
      */
     public function index()
     {
-        return view('estudiante.index');
+        $estudiantes = Estudiante::all();
+        return view('estudiante.estudianteIndex',compact('estudiantes'));
     }
 
     /**
@@ -24,7 +26,7 @@ class EstudianteController extends Controller
      */
     public function create()
     {
-        //
+        return view('estudiante.estudianteform');
     }
 
     /**
@@ -35,7 +37,21 @@ class EstudianteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => ['string','required'],
+            'codigo' => ['integer','unique:estudiantes','required'],
+            'carrera' => ['string'],
+            'creditos' => ['integer','min:0'],
+            'correo' => ['string']
+        ]);
+
+        Estudiante::create($request->all());
+
+        return redirect()->route('Estudiante.index')->with([
+            'mensaje' => 'Estudiante creado',
+            'alert-type' => 'alert-info',
+        ]);
+
     }
 
     /**
@@ -55,9 +71,9 @@ class EstudianteController extends Controller
      * @param  \App\Models\Estudiante  $estudiante
      * @return \Illuminate\Http\Response
      */
-    public function edit(Estudiante $estudiante)
+    public function edit(Estudiante $Estudiante)
     {
-        //
+        return view('estudiante.estudianteform',compact('Estudiante'));
     }
 
     /**
@@ -78,8 +94,9 @@ class EstudianteController extends Controller
      * @param  \App\Models\Estudiante  $estudiante
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Estudiante $estudiante)
+    public function destroy(Estudiante $Estudiante)
     {
-        //
+        $Estudiante->delete();
+        return redirect()->route('Estudiante.index');
     }
 }
