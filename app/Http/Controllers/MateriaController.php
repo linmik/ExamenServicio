@@ -14,7 +14,8 @@ class MateriaController extends Controller
      */
     public function index()
     {
-        //
+        $materias = Materia::all();
+        return view('materia.materiaIndex',compact('materias'));
     }
 
     /**
@@ -24,7 +25,7 @@ class MateriaController extends Controller
      */
     public function create()
     {
-        //
+        return view('materia.materiaform');
     }
 
     /**
@@ -35,7 +36,16 @@ class MateriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'creditos' => ['integer','required','min:1'],
+            'nombre' => ['string','required'],
+            'profesor' => ['string','required'],
+            'turno' => ['string','required'],
+            'disponible' => ['boolean','required'],
+        ]);
+
+        Materia::create($request->all());
+        return redirect()->route('Materia.index');
     }
 
     /**
@@ -46,7 +56,7 @@ class MateriaController extends Controller
      */
     public function show(Materia $materia)
     {
-        //
+        return view('materia.materiaShow',compact('materia'));
     }
 
     /**
@@ -57,7 +67,7 @@ class MateriaController extends Controller
      */
     public function edit(Materia $materia)
     {
-        //
+        return view('materia.materiaform',compact('materia'));
     }
 
     /**
@@ -69,7 +79,17 @@ class MateriaController extends Controller
      */
     public function update(Request $request, Materia $materia)
     {
-        //
+        $request->validate([
+            'creditos' => ['integer','required','min:1'],
+            'nombre' => ['string','required'],
+            'profesor' => ['string','required'],
+            'turno' => ['string','required'],
+            'disponible' => ['boolean','required'],
+        ]);
+
+        Materia::where('id',$materia->id)->update($request->except('_token','_method'));
+
+        return redirect()->route('Materia.index');
     }
 
     /**
@@ -80,6 +100,7 @@ class MateriaController extends Controller
      */
     public function destroy(Materia $materia)
     {
-        //
+        $materia->delete();
+        return redirect()->route('Materia.index');
     }
 }

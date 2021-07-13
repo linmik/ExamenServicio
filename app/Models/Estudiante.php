@@ -20,6 +20,6 @@ class Estudiante extends Model
 
     public function materias()
     {
-        return $this->belongsToMany(Materia::class);
+        return $this->belongsToMany(Materia::class,'_estudiante__materia')->withPivot('materia_id');
     }
 }

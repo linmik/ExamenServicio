@@ -14,8 +14,8 @@ class CreateEstudianteMateria extends Migration
     public function up()
     {
         Schema::create('_estudiante__materia', function (Blueprint $table) {
-            $table->foreignId("estudiante_id")->constrained()->nullable(false);
-            $table->foreignId("materia_id")->constrained()->nullable(false);
+            $table->foreignId("estudiante_id")->constrained()->onDelete('cascade')->nullable(false);
+            $table->foreignId("materia_id")->constrained()->onDelete('cascade')->nullable(false);
         });
     }
 

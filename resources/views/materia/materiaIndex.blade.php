@@ -1,5 +1,4 @@
 @extends('layouts.base') @section('content')
-{{-- <script type="text/javascript" src="{{ asset('assets/js/pets/destroy.js') }}"></script> --}}
 <div class="row">
     <div class="col">
       <div class="card">
@@ -8,12 +7,12 @@
             <div class="row align-items-center">
               <div class="col-8">
                 <h1 class="mb-0">
-                    Estudiantes
+                    Materias
                 </h1>
               </div>
               <div class="col-4 text-right">
-                <a class="btn btn-icon btn-primary align-items-center" href="{{ route('Estudiante.create') }}" >
-                    <span class="h5 text-white">Agregar estudiante</span>
+                <a class="btn btn-icon btn-primary align-items-center" href="{{ route('Materia.create') }}" >
+                    <span class="h5 text-white">Agregar Materia</span>
                 </a>
               </div>
             </div>
@@ -25,25 +24,25 @@
             <thead class="thead-light">
               <tr>
                 <th scope="col" class="sort" data-sort="name">Id</th>
-                <th scope="col" class="sort" data-sort="name">Nombre</th>
-                <th scope="col" class="sort " data-sort="name">Código</th>
-                <th scope="col" class="sort " data-sort="name">Carrera</th>
-                <th scope="col" class="sort " data-sort="name">Créditos cursados</th>
-                <th scope="col" class="sort " data-sort="name">Correo</th>
+                <th scope="col" class="sort" data-sort="name">Créditos</th>
+                <th scope="col" class="sort " data-sort="name">Nombre</th>
+                <th scope="col" class="sort " data-sort="name">Profesor</th>
+                <th scope="col" class="sort " data-sort="name">turno</th>
+                <th scope="col" class="sort " data-sort="name">Disponible</th>
                 <th scope="col" class="sort " data-sort="name"></th>
               </tr>
             </thead>
             <tbody class="list">
-                @foreach ($estudiantes as $estudiante)
+                @foreach ($materias as $materia)
                 <tr>
-                    <td class="name">{{$estudiante->id}}</td>
-                    <td class="name">{{$estudiante->nombre}}</td>
-                    <td class="name">{{$estudiante->codigo}}</td>
-                    <td class="name">{{$estudiante->carrera}}</td>
-                    <td class="name">{{$estudiante->creditos}}</td>
-                    <td class="name">{{$estudiante->correo}}</td>
+                    <td class="name">{{$materia->id}}</td>
+                    <td class="name">{{$materia->creditos}}</td>
+                    <td class="name">{{$materia->nombre}}</td>
+                    <td class="name">{{$materia->profesor}}</td>
+                    <td class="name">{{$materia->turno}}</td>
+                    <td class="name">{{$materia->disponible? "Si":"No"}}</td>
                     <td class="text-right">
-                        <form action="{{route('Estudiante.destroy',[$estudiante])}}" method="post" style="display: inline;">
+                        <form action="{{route('Materia.destroy',[$materia])}}" method="post" style="display: inline;">
                             @method('DELETE')
                             @csrf
                             <button class="btn btn-icon btn-outline-danger">
@@ -52,12 +51,12 @@
                             </span>
                             </button>
                         </form>
-                        <a class="btn btn-icon btn-outline-info" href="{{ route('Estudiante.edit', $estudiante) }}">
+                        <a class="btn btn-icon btn-outline-info" href="{{ route('Materia.edit', $materia) }}">
                             <span class="btn-inner--icon">
                                 <i class="fas fa-pen"></i>
                             </span>
                         </a>
-                        <a class="btn btn-icon btn-outline-info" href="{{ route('Estudiante.show', $estudiante) }}">
+                        <a class="btn btn-icon btn-outline-info" href="{{ route('Materia.show', $materia) }}">
                             <span class="btn-inner--icon">
                                 detalles
                             </span>

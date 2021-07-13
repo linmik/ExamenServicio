@@ -24,7 +24,7 @@
                     </div>
                     <div class='form-group'>
                         <label class="form-control-label" for="codigo">Código (9 digitos)</label>
-                        <input type="text" value="{{ isset($Estudiante) ? $Estudiante->creditos : ""}}" id='codigo' name="codigo" class="form-control" required pattern="[0-9]{9}">
+                        <input type="text" value="{{ isset($Estudiante) ? $Estudiante->codigo: ""}}" id='codigo' name="codigo" class="form-control" required pattern="[0-9]{9}">
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" for="carrera">Carrera</label>

@@ -21,4 +21,8 @@ Route::get('/', function () {
 
 
 Route::resource('Estudiante', EstudianteController::class);
-Route::resource('Materia', MateriaController::class);
+Route::resource('Materia', MateriaController::class)->parameters(["Materia" => "materia"
+]);
+
+
+Route::post('/Estudiante/nuevaMateria/{Estudiante}', [EstudianteController::class,'agregarMateria'])->name('agregarMaterias');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
+use App\Models\Materia;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 
@@ -42,15 +43,12 @@ class EstudianteController extends Controller
             'codigo' => ['integer','unique:estudiantes','required'],
             'carrera' => ['string'],
             'creditos' => ['integer','min:0'],
-            'correo' => ['string']
+            'correo' => ['string','unique:estudiantes']
         ]);
 
         Estudiante::create($request->all());
 
-        return redirect()->route('Estudiante.index')->with([
-            'mensaje' => 'Estudiante creado',
-            'alert-type' => 'alert-info',
-        ]);
+        return redirect()->route('Estudiante.index');
 
     }
 
@@ -60,9 +58,9 @@ class EstudianteController extends Controller
      * @param  \App\Models\Estudiante  $estudiante
      * @return \Illuminate\Http\Response
      */
-    public function show(Estudiante $estudiante)
+    public function show(Estudiante $Estudiante)
     {
-        //
+        return view('estudiante.estudianteShow',compact('Estudiante'));
     }
 
     /**
@@ -83,9 +81,19 @@ class EstudianteController extends Controller
      * @param  \App\Models\Estudiante  $estudiante
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Estudiante $estudiante)
+    public function update(Request $request, Estudiante $Estudiante)
     {
-        //
+        $request->validate([
+            'nombre' => ['string','required'],
+            'codigo' => ['integer','required'],
+            'carrera' => ['string'],
+            'creditos' => ['integer','min:0'],
+            'correo' => ['string']
+        ]);
+
+        Estudiante::where('id',$Estudiante->id)->update($request->except('_token','_method'));
+
+        return redirect()->route('Estudiante.index');
     }
 
     /**
@@ -98,5 +106,14 @@ class EstudianteController extends Controller
     {
         $Estudiante->delete();
         return redirect()->route('Estudiante.index');
+    }
+
+    public function agregarMateria(Request $request,Estudiante $Estudiante)
+    {
+        $materia = Materia::where('id',$request->only("id_m"))->first();
+        if (isset($materia)){
+            $Estudiante->materias()->attach($request->only("id_m"));
+        }
+        return redirect()->route('Estudiante.show',[$Estudiante]);
     }
 }
