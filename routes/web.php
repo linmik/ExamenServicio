@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\MateriaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::resource('Estudiante', EstudianteController::class);
+Route::resource('Materia', MateriaController::class);
